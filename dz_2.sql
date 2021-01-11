@@ -2,7 +2,11 @@ DROP DATABASE IF EXISTS vk;
 CREATE DATABASE vk;
 USE vk;
 
+-- удалить таблицу если есть
+
 DROP TABLE IF EXISTS users;
+-- создать таблицу
+
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, -- SERIAL = BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE
     firstname VARCHAR(100),
@@ -14,8 +18,11 @@ CREATE TABLE users (
     -- INDEX users_phone_idx(phone), -- помним: как выбирать индексы
     INDEX users_firstname_lastname_idx(firstname, lastname)
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS `profiles`;
+-- создать таблицу
+
 CREATE TABLE `profiles` (
 	user_id SERIAL PRIMARY KEY,
     gender CHAR(1),
@@ -36,8 +43,11 @@ CREATE TABLE `profiles` (
 ALTER TABLE `profiles` ADD CONSTRAINT fk_user_id
     FOREIGN KEY (user_id) REFERENCES users(id)
     ON UPDATE CASCADE ON DELETE CASCADE;
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS messages;
+-- создать таблицу
+
 CREATE TABLE messages (
 	id SERIAL PRIMARY KEY,
 	from_user_id BIGINT UNSIGNED NOT NULL,
@@ -48,8 +58,11 @@ CREATE TABLE messages (
     FOREIGN KEY (from_user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (to_user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS friend_requests;
+-- создать таблицу
+
 CREATE TABLE friend_requests (
 	-- id SERIAL PRIMARY KEY, -- изменили на составной ключ (initiator_user_id, target_user_id)
 	initiator_user_id BIGINT UNSIGNED NOT NULL,
@@ -64,8 +77,11 @@ CREATE TABLE friend_requests (
     FOREIGN KEY (initiator_user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (target_user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS communities;
+-- создать таблицу
+
 CREATE TABLE communities(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(150),
@@ -74,8 +90,11 @@ CREATE TABLE communities(
 	INDEX communities_name_idx(name),
 	FOREIGN KEY (admin_user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE set null
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS users_communities;
+-- создать таблицу
+
 CREATE TABLE users_communities(
 	user_id BIGINT UNSIGNED NOT NULL,
 	community_id BIGINT UNSIGNED NOT NULL,
@@ -84,8 +103,11 @@ CREATE TABLE users_communities(
     FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (community_id) REFERENCES communities(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS media_types;
+-- создать таблицу
+
 CREATE TABLE media_types(
 	id SERIAL PRIMARY KEY,
     name VARCHAR(255),
@@ -94,8 +116,11 @@ CREATE TABLE media_types(
 
     -- записей мало, поэтому индекс будет лишним (замедлит работу)!
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS media;
+-- создать таблицу
+
 CREATE TABLE media(
 	id SERIAL PRIMARY KEY,
     media_type_id BIGINT UNSIGNED NOT NULL,
@@ -110,8 +135,11 @@ CREATE TABLE media(
     FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (media_type_id) REFERENCES media_types(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS likes;
+-- создать таблицу
+
 CREATE TABLE likes(
 	id SERIAL PRIMARY KEY,
     user_id BIGINT UNSIGNED NOT NULL,
@@ -126,8 +154,9 @@ CREATE TABLE likes(
     FOREIGN KEY (media_id) REFERENCES media(id) ON UPDATE CASCADE ON DELETE CASCADE
 
 );
-
+-- удалить таблицу если есть
 DROP TABLE IF EXISTS `photo_albums`;
+-- создать таблицу
 CREATE TABLE `photo_albums` (
 	`id` SERIAL,
 	`name` varchar(255) DEFAULT NULL,
@@ -136,6 +165,7 @@ CREATE TABLE `photo_albums` (
     FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE set NULL,
   	PRIMARY KEY (`id`)
 );
+-- удалить таблицу если есть
 
 DROP TABLE IF EXISTS `photos`;
 CREATE TABLE `photos` (
@@ -156,7 +186,8 @@ ALTER TABLE `profiles` ADD CONSTRAINT fk_photo_id
    *  3-4 новые таблицы (с перечнем полей, указанием индексов и внешних ключей).
 (по желанию: организовать все связи 1-1, 1-М, М-М)
    */ 
-  -- создание таблиц 
+-- удалить таблицу если есть
+ -- создание таблиц 
 DROP TABLE IF EXISTS `video_theme`;
 CREATE TABLE `video_theme` (
 	video_theme_id SERIAL PRIMARY KEY,
@@ -164,16 +195,22 @@ CREATE TABLE `video_theme` (
 	`name` varchar(255) DEFAULT NULL
 );
    
+-- удалить таблицу если есть
 	
 DROP TABLE IF EXISTS `videos`;
+-- создать таблицу
+
 CREATE TABLE `videos` (
 	id SERIAL PRIMARY KEY,
 	`name` varchar(255) DEFAULT NULL,
 	media_types_id BIGINT UNSIGNED DEFAULT NULL
 	
 );
-   
+  -- удалить таблицу если есть
+ 
 DROP TABLE IF EXISTS `video_users`;
+-- создать таблицу
+
 CREATE TABLE `video_users` (
 	id SERIAL PRIMARY KEY,
 	`name` varchar(255) DEFAULT NULL,
