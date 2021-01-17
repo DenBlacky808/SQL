@@ -2,6 +2,7 @@
 -- который больше всех общался с нашим пользователем.
 -- наш пользователь имеет id = 1
 	
+
 SELECT 
 from_user_id,
 COUNT(*) as cnt
@@ -20,9 +21,10 @@ LIMIT 1;
 -- Подсчитать общее количество лайков, которые получили пользователи младше 10 лет.
 
 
-
-
-
+SELECT SUM(cnt) likes FROM -- Найдем общее количество лайков
+(SELECT COUNT(*) as cnt FROM likes WHERE user_id IN -- Посчитаем в Likes по user_id
+(SELECT user_id FROM profiles WHERE TIMESTAMPDIFF(YEAR, birthday, NOW()) < 10) -- найдем user_id младше 10 лет 
+GROUP BY user_id) as young; 
 
 
 -- Определить кто больше поставил лайков (всего): мужчины или женщины.
