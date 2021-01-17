@@ -1,8 +1,8 @@
 -- Пусть задан некоторый пользователь. Из всех друзей этого пользователя найдите человека, 
 -- который больше всех общался с нашим пользователем.
--- наш пользователь имеет id = 1
-	
 
+
+-- Пусть наш пользователь имеет id = 1
 SELECT 
 from_user_id,
 COUNT(*) as cnt
@@ -28,3 +28,22 @@ GROUP BY user_id) as young;
 
 
 -- Определить кто больше поставил лайков (всего): мужчины или женщины.
+
+
+SELECT
+-- В зависимости от результата подсчетов выводим пол
+   CASE 
+     WHEN count_male > count_female THEN 'мужчины'
+     WHEN count_male < count_female THEN 'женщины'
+     ELSE 'другой'
+   END as 'больше лайков поставили' -- название столбца
+-- считаем лайки мужчин по user_id в profiles где пол 'm'
+FROM (SELECT COUNT(*) AS count_male 
+FROM likes WHERE user_id IN 
+(SELECT user_id FROM profiles WHERE gender = 'm')) 
+AS count_male_select,
+-- считаем лайки женщин по user_id в profiles где пол 'm'
+(SELECT COUNT(*) AS count_female FROM likes WHERE user_id IN 
+(SELECT user_id FROM profiles WHERE gender = 'f')) 
+AS count_fmale_select;
+
