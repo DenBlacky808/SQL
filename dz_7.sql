@@ -1,5 +1,5 @@
-Составьте список пользователей users, 
-которые осуществили хотя бы один заказ orders в интернет магазине.
+-- Составьте список пользователей users, 
+-- которые осуществили хотя бы один заказ orders в интернет магазине.
 
 SELECT name
 FROM users 
@@ -7,19 +7,19 @@ INNER JOIN orders ON (orders.user_id = users.id)
 GROUP BY users.name
 HAVING COUNT(orders.id) > 0
 
-Выведите список товаров products и разделов catalogs, который соответствует товару.
+-- Выведите список товаров products и разделов catalogs, который соответствует товару.
 
 SELECT products.name, catalogs.name
 FROM products
 INNER JOIN catalogs ON (products.catalog_id = catalogs.id)
 GROUP BY products.id
 
-
+/*
 (по желанию) Пусть имеется таблица рейсов flights 
 (id, from, to) и таблица городов cities (label, name). 
 Поля from, to и label содержат английские названия городов,
 поле name — русское.
-Выведите список рейсов flights с русскими названиями городов.
+Выведите список рейсов flights с русскими названиями городов.*/
 
 
 DROP TABLE IF EXISTS flights;
